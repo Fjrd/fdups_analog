@@ -1,6 +1,11 @@
 package utils;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FileUtils {
 
@@ -18,4 +23,15 @@ public class FileUtils {
         return file.exists();
     }
 
+    public static Set<File> findDuplicates(List<File> list){
+        Set<File> noDuplSet = new HashSet<File>();
+        Set<File> duplicates = new HashSet<File>();
+        for (File file :
+                list) {
+            if (!noDuplSet.add(file)) {
+                duplicates.add(file);
+            }
+        }
+        return noDuplSet;
+    }
 }

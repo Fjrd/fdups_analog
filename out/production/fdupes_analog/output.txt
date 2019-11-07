@@ -1,4 +1,4 @@
-first length.txt	10	/home/fjrd/IdeaProjects/fdupes_analog/src/test	
-four lenghth.txt	25	/home/fjrd/IdeaProjects/fdupes_analog/src/test	
-second lenghth.txt	15	/home/fjrd/IdeaProjects/fdupes_analog/src/test	
+2.txt	3	/home/fjrd/IdeaProjects/fdupes_analog/src/test	
 third length.txt	20	/home/fjrd/IdeaProjects/fdupes_analog/src/test	
+4.txt	3	/home/fjrd/IdeaProjects/fdupes_analog/src/test/test2	
+first length.txt	10	/home/fjrd/IdeaProjects/fdupes_analog/src/test	

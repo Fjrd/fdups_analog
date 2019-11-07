@@ -1,15 +1,14 @@
 import utils.FileUtils;
 
 import java.io.*;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Main {
     static File folderWithFiles; //папка с файлами
     static File resultFile;
     static List<File> listOfFiles = new CopyOnWriteArrayList<File>();
+    static Set<File> noDuplicatesList = new HashSet<File>();
 
     public static List<File> addFilesToList(File folder){
         for (File file : folder.listFiles())
@@ -30,7 +29,7 @@ public class Main {
         for (File file : listOfFiles) {
             if (file.length() > 50){
                 FileUtils.deleteFile(file);
-                listOfFiles.remove(file)
+                listOfFiles.remove(file);
             }
         }
     }
@@ -44,13 +43,6 @@ public class Main {
         Collections.sort(listOfFiles, new Comparator<File>() {
             @Override
             public int compare(File o1, File o2) {
-                /*if (o1.isDirectory() && o2.isFile()) {
-                    return 1;
-                } else if (o1.isFile() && o2.isDirectory()) {
-                    return -1;
-                } else
-                    // используем встроенное сравнение в классе File
-                    return o1.compareTo(o2);*/
                 if (o1.length() > o2.length())
                     return 1;
                 else if (o1.length() == o2.length())
@@ -58,6 +50,17 @@ public class Main {
                 else return -1;
             }
         });
+
+        //найти файлы с одинаковым размером
+
+        //удалить файлы с одинаковым хешем
+
+        noDuplicatesList = FileUtils.findDuplicates(listOfFiles);
+        for (File file :
+                noDuplicatesList) {
+            System.out.println(file.getPath());
+            System.out.println(file.hashCode());
+        }
 
         //удалить файл output.txt, если он существует
         if (FileUtils.isExist(resultFile)){
@@ -67,7 +70,7 @@ public class Main {
         //write output file
         FileWriter writer = new FileWriter(resultFile, true);
         //writer.write("dir" + '\t' + "file name" + '\t' + "file size" + '\n');
-        for (File file : listOfFiles) {
+        for (File file : noDuplicatesList) {
             try
             {
                 writer.append(file.getName());
