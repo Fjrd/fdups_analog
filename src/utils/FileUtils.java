@@ -18,23 +18,9 @@ public class FileUtils {
             System.out.println("Can not rename file with name " + source.getName());
     }
 
-    public static boolean isExist(File file) {
-        return file.exists();
-    }
-
-    public static Set<File> findDuplicatesOld(List<File> list){
-        Set<File> noDuplSet = new HashSet<File>();
-        Set<File> duplicates = new HashSet<File>();
-        for (File file :
-                list) {
-            if (!noDuplSet.add(file)) {
-                duplicates.add(file);
-            }
-        }
-        return noDuplSet;
-    }
-
+    //calculate MD5 hash from file
     public static String makeMD5Hash(File file) throws IOException {
+        //calculate
         //Using Apache Commons Codec 1.8
         //From <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
         String checksum = DigestUtils.md5Hex(new FileInputStream(file));
