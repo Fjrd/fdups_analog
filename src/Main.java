@@ -1,6 +1,7 @@
 import utils.FileUtils;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -10,6 +11,7 @@ public class Main {
     static File resultFile;
     static List<File> listOfFiles = new CopyOnWriteArrayList<File>();
     static Set<File> noDuplicatesList = new HashSet<File>();
+    static Set<File> sameLengthFilesSet = new HashSet<>();
 
     public static List<File> addFilesToList(File folder){
         for (File file : folder.listFiles())
@@ -35,9 +37,27 @@ public class Main {
         }
     }
 
+    public static Set<File> findSameLengthFiles(List<File> list){
+        Set<File> sameLengthFilesSet = new HashSet<>();
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = i; j < list.size() - i; j++) {
+                if (list.get(i).length() == list.get(j).length()){
+                    sameLengthFilesSet.add(list.get(i));
+                    sameLengthFilesSet.add(list.get(j));
+                }
+            }
+        }
+        return sameLengthFilesSet;
+    }
+
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
         folderWithFiles = new File(args[0]);
         resultFile = new File(args[1]);
+
+        //список файлов
+        //найти файлы одинаковой длины
+        //сравнить их хеши
+        //удалить совпадающие
 
         //?
         listOfFiles = addFilesToList(folderWithFiles);
@@ -56,12 +76,7 @@ public class Main {
 
         noDuplicatesList = FileUtils.findDuplicatesOld(listOfFiles);
 
-        for (File file :
-                listOfFiles) {
-            System.out.println(file.getName());
-            System.out.println(FileUtils.makeHash(file));
-        }
-
+        //далее запись файла output
         //удалить файл output.txt, если он существует
         if (FileUtils.isExist(resultFile)){
             FileUtils.deleteFile(resultFile);

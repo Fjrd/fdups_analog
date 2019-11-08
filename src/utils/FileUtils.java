@@ -1,19 +1,10 @@
 package utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
+import java.io.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class FileUtils {
 
@@ -37,29 +28,17 @@ public class FileUtils {
         for (File file :
                 list) {
             if (!noDuplSet.add(file)) {
-                System.out.println("oppa!");
                 duplicates.add(file);
             }
         }
         return noDuplSet;
     }
 
-    public static String makeHash(File file) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        try (InputStream is = Files.newInputStream(file.toPath());
-             DigestInputStream dis = new DigestInputStream(is, md))
-        {
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        byte[] digest = md.digest();
-        BigInteger no = new BigInteger(1, digest);
-        String hashtext = no.toString(16);
-        while (hashtext.length() < 32) {
-            hashtext = "0" + hashtext;
-        }
-        return hashtext;
+    public static String makeMD5Hash(File file) throws IOException {
+        //Using Apache Commons Codec 1.8
+        //From <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+        String checksum = DigestUtils.md5Hex(new FileInputStream(file));
+        return checksum;
     }
 
 
